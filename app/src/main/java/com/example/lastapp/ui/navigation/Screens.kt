@@ -2,24 +2,24 @@ package com.example.lastapp.ui.navigation
 
 import com.example.lastapp.R
 
-interface AppNavegation {
+interface AppNavigation {
     val icon: Int
     val route: String
 }
 
-object First : AppNavegation {
-    override val icon = R.drawable.icons8_casa
-    override val route = "first"
+object First : AppNavigation {
+    override val icon = R.drawable.home
+    override val route = "Home"
 }
 
-object Notification : AppNavegation {
-    override val icon = R.drawable.icons8_campana_50
-    override val route = "notification"
+object Notification : AppNavigation {
+    override val icon = R.drawable.notifications
+    override val route = "Notifications"
 }
 
-object Calendar : AppNavegation {
-    override val icon = R.drawable.icons8_calendario_64
-    override val route = "calendar"
+object Calendar : AppNavigation {
+    override val icon = R.drawable.calendar_month
+    override val route = "Calendar"
 }
 
-val tabRowScreens = listOf(First, Notification, Calendar)
+val tabRowScreens = listOf(First, Calendar, Notification)

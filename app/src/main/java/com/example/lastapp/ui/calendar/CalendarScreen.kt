@@ -10,23 +10,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CalendarScreen(
-    onClickSeeFirst: () -> Unit,
-    onClickSeeNotifies: () -> Unit
 ){
-    Row() {
-        Button(
-            modifier = Modifier
-                .padding(vertical = 24.dp),
-            onClick = onClickSeeNotifies
-        ) {
-            Text("Continue to Notifies")
-        }
-        Button(
-            modifier = Modifier
-                .padding(vertical = 24.dp),
-            onClick = onClickSeeFirst
-        ) {
-            Text("Continue to Main")
-        }
-    }
+    Text("Hola, soy un calendario, supongo")
 }

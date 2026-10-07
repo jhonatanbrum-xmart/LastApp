@@ -16,10 +16,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HomeScreen(
-    onClickSeeCalendar: () -> Unit = {},
-    onClickSeeNotifies: () -> Unit = {},
-    modifier: Modifier = Modifier.Companion
-
+    modifier: Modifier = Modifier
 ) {
     val materiaEscrito = "Matematicas CTS"
     Column(
@@ -42,22 +39,6 @@ fun HomeScreen(
         Spacer(modifier = Modifier.weight(0.5f))
         Text("Hello! You have writing of: $materiaEscrito today!")
         Spacer(modifier = Modifier.weight(1f))
-        Row() {
-            Button(
-                modifier = Modifier
-                    .padding(vertical = 24.dp),
-                onClick = onClickSeeCalendar
-            ) {
-                Text("Continue to Calendar")
-            }
-            Button(
-                modifier = Modifier
-                    .padding(vertical = 24.dp),
-                onClick = onClickSeeNotifies
-            ) {
-                Text("Continue to Notifies")
-            }
-        }
     }
 
 }

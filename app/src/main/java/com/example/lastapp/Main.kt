@@ -3,6 +3,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
@@ -11,20 +12,20 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -37,13 +38,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -53,7 +55,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.lastapp.ui.calendar.CalendarScreen
 import com.example.lastapp.ui.home.HomeScreen
-import com.example.lastapp.ui.navigation.AppNavegation
+import com.example.lastapp.ui.navigation.AppNavigation
 import com.example.lastapp.ui.navigation.Calendar
 import com.example.lastapp.ui.navigation.First
 import com.example.lastapp.ui.navigation.Notification
@@ -98,9 +100,9 @@ fun MyApp(modifier: Modifier = Modifier) {
 
 @Composable
 fun TabRow(
-    allScreens: List<AppNavegation>,
-    onTabSelected: (AppNavegation) -> Unit,
-    currentScreen: AppNavegation
+    allScreens: List<AppNavigation>,
+    onTabSelected: (AppNavigation) -> Unit,
+    currentScreen: AppNavigation
 ) {
     Surface(
         Modifier
@@ -110,10 +112,13 @@ fun TabRow(
     ) {
         Row(Modifier
             .selectableGroup()
-            .background(Color.DarkGray)) {
+            .background(Color.DarkGray),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
             allScreens.forEach { screen ->
                 AppTab(
                     text = screen.route,
+                    icon = screen.icon,
                     onSelected = { onTabSelected(screen) },
                     selected = currentScreen == screen
                 )
@@ -130,28 +135,13 @@ fun AppNavHost(
         navController = navController, startDestination = First.route, modifier = modifier
     ) {
         composable(route = First.route) {
-            HomeScreen(onClickSeeCalendar = {
-                navController.navigateSingleTopTo(Calendar.route)
-            }, onClickSeeNotifies = {
-                navController.navigateSingleTopTo(Notification.route)
-            })
+            HomeScreen()
         }
         composable(route = Calendar.route) {
-            CalendarScreen(
-                onClickSeeNotifies = {
-                    navController.navigateSingleTopTo(Notification.route)
-                },
-                onClickSeeFirst = {
-                    navController.navigateSingleTopTo(First.route)
-                },
-            )
+            CalendarScreen()
         }
         composable(route = Notification.route) {
-            NotificationScreen(onClickSeeCalendar = {
-                navController.navigateSingleTopTo(Calendar.route)
-            }, onClickSeeFirst = {
-                navController.navigateSingleTopTo(First.route)
-            })
+            NotificationScreen()
         }
 
     }
@@ -160,6 +150,7 @@ fun AppNavHost(
 @Composable
 private fun AppTab(
     text: String,
+    @DrawableRes icon: Int,
     onSelected: () -> Unit,
     selected: Boolean
 ) {
@@ -173,12 +164,12 @@ private fun AppTab(
         )
     }
     val tabTintColor by animateColorAsState(
-        targetValue = if (selected) color else color.copy(alpha = InactiveTabOpacity),
+        targetValue = if (selected) Color.Black else Color.White,
         animationSpec = animSpec
     )
     Row(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(6.dp)
             .animateContentSize()
             .height(TabHeight)
             .selectable(
@@ -187,16 +178,16 @@ private fun AppTab(
                 role = Role.Tab,
                 interactionSource = remember { MutableInteractionSource() },
                 indication = ripple(
-                    bounded = false,
-                    radius = Dp.Unspecified,
-                    color = Color.Red
+                    bounded = true,
+                    radius = 20.dp,
+                    color = Color.Blue
                 )
             )
             .clearAndSetSemantics { contentDescription = text }
-    ) {Modifier.padding(10.dp)
-        if (selected) {
-            Spacer(Modifier.width(12.dp))
-            Text("")
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally){
+        Icon(painter = painterResource(id = icon), contentDescription = "", tint = tabTintColor)
+        Text(text)
         }
     }
 }
