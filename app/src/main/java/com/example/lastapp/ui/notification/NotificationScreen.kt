@@ -10,23 +10,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun NotificationScreen(
-    onClickSeeFirst: () -> Unit,
-    onClickSeeCalendar: () -> Unit
 ){
-    Row() {
-        Button(
-            modifier = Modifier
-                .padding(vertical = 24.dp),
-            onClick = onClickSeeCalendar
-        ) {
-            Text("Continue to Calendar")
-        }
-        Button(
-            modifier = Modifier
-                .padding(vertical = 24.dp),
-            onClick = onClickSeeFirst
-        ) {
-            Text("Continue to Main")
-        }
-    }
+    Text("Hasta donde tengo entendido, soy una notificacion")
 }
