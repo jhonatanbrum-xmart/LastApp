@@ -90,6 +90,7 @@ fun AppNavHost(
 
 @Composable
 fun AppTab(
+
     text: String,
     @DrawableRes notSelectedIcon: Int,
     @DrawableRes selectedIcon: Int,
@@ -116,7 +117,6 @@ fun AppTab(
                 .clearAndSetSemantics { contentDescription = text },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Icon(painter = painterResource(id = icon), contentDescription = "")
             Spacer(modifier = Modifier.size(8.dp))
             Text(text)
