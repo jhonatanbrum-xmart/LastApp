@@ -1,4 +1,5 @@
 package com.example.lastapp
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,10 +16,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
@@ -55,10 +58,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.lastapp.ui.calendar.CalendarScreen
 import com.example.lastapp.ui.home.HomeScreen
+import com.example.lastapp.ui.navigation.AppNavHost
 import com.example.lastapp.ui.navigation.AppNavigation
 import com.example.lastapp.ui.navigation.Calendar
 import com.example.lastapp.ui.navigation.First
 import com.example.lastapp.ui.navigation.Notification
+import com.example.lastapp.ui.navigation.TabRow
 import com.example.lastapp.ui.navigation.tabRowScreens
 import com.example.lastapp.ui.notification.NotificationScreen
 
@@ -67,7 +72,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             enableEdgeToEdge()
-                MyApp(modifier = Modifier.fillMaxSize())
+            MyApp(modifier = Modifier.fillMaxSize())
         }
     }
 }
@@ -94,167 +99,6 @@ fun MyApp(modifier: Modifier = Modifier) {
             AppNavHost(
                 navController = navController, modifier = Modifier.padding(paddingValues)
             )
-        }
-    }
-}
-
-@Composable
-fun TabRow(
-    allScreens: List<AppNavigation>,
-    onTabSelected: (AppNavigation) -> Unit,
-    currentScreen: AppNavigation
-) {
-    Surface(
-        Modifier
-            .height(TabHeight)
-            .fillMaxWidth()
-
-    ) {
-        Row(Modifier
-            .selectableGroup()
-            .background(Color.DarkGray),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            allScreens.forEach { screen ->
-                AppTab(
-                    text = screen.route,
-                    icon = screen.icon,
-                    onSelected = { onTabSelected(screen) },
-                    selected = currentScreen == screen
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun AppNavHost(
-    navController: NavHostController, modifier: Modifier = Modifier
-) {
-    NavHost(
-        navController = navController, startDestination = First.route, modifier = modifier
-    ) {
-        composable(route = First.route) {
-            HomeScreen()
-        }
-        composable(route = Calendar.route) {
-            CalendarScreen()
-        }
-        composable(route = Notification.route) {
-            NotificationScreen()
-        }
-
-    }
-}
-
-@Composable
-private fun AppTab(
-    text: String,
-    @DrawableRes icon: Int,
-    onSelected: () -> Unit,
-    selected: Boolean
-) {
-    val color = Color(Color.hashCode())
-    val durationMillis = if (selected) TabFadeInAnimationDuration else TabFadeOutAnimationDuration
-    val animSpec = remember {
-        tween<Color>(
-            durationMillis = durationMillis,
-            easing = LinearEasing,
-            delayMillis = TabFadeInAnimationDelay
-        )
-    }
-    val tabTintColor by animateColorAsState(
-        targetValue = if (selected) Color.Black else Color.White,
-        animationSpec = animSpec
-    )
-    Row(
-        modifier = Modifier
-            .padding(6.dp)
-            .animateContentSize()
-            .height(TabHeight)
-            .selectable(
-                selected = selected,
-                onClick = onSelected,
-                role = Role.Tab,
-                interactionSource = remember { MutableInteractionSource() },
-                indication = ripple(
-                    bounded = true,
-                    radius = 20.dp,
-                    color = Color.Blue
-                )
-            )
-            .clearAndSetSemantics { contentDescription = text }
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally){
-        Icon(painter = painterResource(id = icon), contentDescription = "", tint = tabTintColor)
-        Text(text)
-        }
-    }
-}
-
-private val TabHeight = 56.dp
-private const val InactiveTabOpacity = 0.60f
-
-private const val TabFadeInAnimationDuration = 150
-private const val TabFadeInAnimationDelay = 100
-private const val TabFadeOutAnimationDuration = 100
-@Composable
-private fun Greetings(
-    days: Int,
-    modifier: Modifier = Modifier,
-    names: List<String> = List(days) { "Hello $it" }
-) {
-    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
-        items(items = names) { name ->
-            Greeting(name = name)
-        }
-    }
-}
-
-@Composable
-private fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primary
-        ),
-        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
-    ) {
-        CardContent(name)
-    }
-}
-
-@Composable
-private fun CardContent(name: String) {
-    var expanded by rememberSaveable { mutableStateOf(false) }
-
-    Row(
-        modifier = Modifier
-            .padding(12.dp)
-            .animateContentSize(
-                animationSpec = spring(
-                    dampingRatio = Spring.DampingRatioMediumBouncy,
-                    stiffness = Spring.StiffnessLow
-                )
-            )
-    ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(12.dp)
-        ) {
-            Text(
-                text = name, style = MaterialTheme.typography.headlineMedium.copy(
-                    fontWeight = FontWeight.ExtraBold
-                )
-            )
-            if (expanded) {
-                Text(
-                    text = ("Composem ipsum color sit lazy, " +
-                            "padding theme elit, sed do bouncy. ").repeat(4),
-                )
-            }
-        }
-        IconButton(onClick = { expanded = !expanded }) {
         }
     }
 }
