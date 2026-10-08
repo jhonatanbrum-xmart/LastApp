@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
@@ -48,21 +49,12 @@ fun TabRow(
     onTabSelected: (AppNavigation) -> Unit,
     currentScreen: AppNavigation
 ) {
-    Surface(
-        Modifier
-            .height(TabHeight)
-            .fillMaxWidth()
-
+    NavigationBar(
+        modifier = Modifier.fillMaxWidth(),
+        containerColor = MiColorGris
     ) {
-        Row(
-            Modifier
-                .selectableGroup()
-                .fillMaxWidth()
-                .background(MiColorGris),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Spacer(modifier = Modifier.weight(0.69f))
             allScreens.forEach { screen ->
+                Spacer(modifier = Modifier.weight(0.35f))
                 AppTab(
                     text = screen.route,
                     notSelectedIcon = screen.notSelectedIcon,
@@ -70,12 +62,11 @@ fun TabRow(
                     onSelected = { onTabSelected(screen) },
                     selected = currentScreen == screen,
                 )
-                Spacer(modifier = Modifier.weight(0.4f))
+                Spacer(modifier = Modifier.weight(0.13f))
             }
 
         }
     }
-}
 
 @Composable
 fun AppNavHost(
