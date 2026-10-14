@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
@@ -42,15 +43,21 @@ fun TabRow(
         containerColor = MiColorGris
     ) {
             allScreens.forEach { screen ->
-                Spacer(modifier = Modifier.weight(0.35f))
-                AppTab(
-                    text = screen.route,
-                    notSelectedIcon = screen.notSelectedIcon,
-                    selectedIcon = screen.selectedIcon,
-                    onSelected = { onTabSelected(screen) },
-                    selected = currentScreen == screen,
+                val isSelected = currentScreen == screen
+                NavigationBarItem(
+                    selected = isSelected,
+                    onClick = { onTabSelected(screen) },
+                    label = {
+                        Text(text = screen.route)
+                    },
+                    icon = {
+                        val icon = if (isSelected) screen.selectedIcon else screen.notSelectedIcon
+                        Icon(
+                            painter = painterResource(id = icon),
+                            contentDescription = ""
+                        )
+                    }
                 )
-                Spacer(modifier = Modifier.weight(0.13f))
             }
 
         }
@@ -75,42 +82,3 @@ fun AppNavHost(
 
     }
 }
-
-@Composable
-fun AppTab(
-
-    text: String,
-    @DrawableRes notSelectedIcon: Int,
-    @DrawableRes selectedIcon: Int,
-    onSelected: () -> Unit,
-    selected: Boolean,
-) {
-
-    val icon = if(selected) selectedIcon else notSelectedIcon
-    Column(
-            modifier = Modifier
-
-                .animateContentSize()
-                .selectable(
-                    selected = selected,
-                    onClick = onSelected,
-                    role = Role.Tab,
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = ripple(
-                        bounded = true,
-                        radius = 20.dp,
-                        color = Color.Blue
-                    )
-                )
-                .clearAndSetSemantics { contentDescription = text }
-                .padding(vertical = 12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(painter = painterResource(id = icon), contentDescription = "")
-            Spacer(modifier = Modifier.size(8.dp))
-            Text(text)
-        }
-    }
-
-
-private val TabHeight = 80.dp
