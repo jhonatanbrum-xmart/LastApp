@@ -1,8 +1,6 @@
 package com.example.lastapp.ui.theme
 
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.colorspace.ColorSpaces
 
 
 val Purple80 = Color(0xFFD0BCFF)
