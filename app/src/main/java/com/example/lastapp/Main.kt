@@ -23,8 +23,8 @@ import com.example.lastapp.ui.navigation.tabRowScreens
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
-            enableEdgeToEdge()
             MyApp(modifier = Modifier.fillMaxSize())
         }
     }
