@@ -8,7 +8,7 @@ interface AppNavigation {
     val route: String
 }
 
-object First : AppNavigation {
+object Home : AppNavigation {
     override val notSelectedIcon = R.drawable.home
     override val selectedIcon = R.drawable.home_black
     override val route = "Home"
@@ -26,4 +26,4 @@ object Calendar : AppNavigation {
     override val route = "Calendar"
 }
 
-val tabRowScreens = listOf(First, Calendar, Notification)
+val tabRowScreens = listOf(Home, Calendar, Notification)
