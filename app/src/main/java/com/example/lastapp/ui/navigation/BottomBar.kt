@@ -63,22 +63,3 @@ fun TabRow(
         }
     }
 
-@Composable
-fun AppNavHost(
-    navController: NavHostController, modifier: Modifier = Modifier
-) {
-    NavHost(
-        navController = navController, startDestination = Home.route, modifier = modifier
-    ) {
-        composable(route = Home.route) {
-            HomeScreen()
-        }
-        composable(route = Calendar.route) {
-            CalendarScreen()
-        }
-        composable(route = Notification.route) {
-            NotificationScreen()
-        }
-
-    }
-}
