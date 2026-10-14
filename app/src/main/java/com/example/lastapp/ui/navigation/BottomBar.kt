@@ -89,7 +89,7 @@ fun AppTab(
     val icon = if(selected) selectedIcon else notSelectedIcon
     Column(
             modifier = Modifier
-                .padding(vertical = 12.dp)
+
                 .animateContentSize()
                 .selectable(
                     selected = selected,
@@ -102,7 +102,8 @@ fun AppTab(
                         color = Color.Blue
                     )
                 )
-                .clearAndSetSemantics { contentDescription = text },
+                .clearAndSetSemantics { contentDescription = text }
+                .padding(vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(painter = painterResource(id = icon), contentDescription = "")
