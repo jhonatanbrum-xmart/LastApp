@@ -8,13 +8,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.example.lastapp.ui.theme.MiColorGris
 
 @Composable
 fun TabRow(
-    allScreens: List<AppNavigation>,
-    onTabSelected: (AppNavigation) -> Unit,
-    currentScreen: AppNavigation
+    allScreens: List<bottomBarNavigation>,
+    onTabSelected: (bottomBarNavigation) -> Unit,
+    currentScreen: bottomBarNavigation
 ) {
     NavigationBar(
         modifier = Modifier.fillMaxWidth(),
@@ -26,7 +27,7 @@ fun TabRow(
                 selected = isSelected,
                 onClick = { onTabSelected(screen) },
                 label = {
-                    Text(text = screen.route)
+                    Text(text = stringResource(screen.label))
                 },
                 icon = {
                     val icon = if (isSelected) screen.selectedIcon else screen.notSelectedIcon
